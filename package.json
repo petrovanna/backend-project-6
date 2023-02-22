@@ -2,6 +2,7 @@
    "name": "fastify-nodejs-application",
    "version": "0.1.0",
    "type": "module",
+   "main": "server/plugin.js",
    "description": "fastify-nodejs-application",
    "engines": {
       "node": ">=16.x"
