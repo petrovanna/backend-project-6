@@ -28,5 +28,20 @@ export default (app) => {
       }
 
       return reply;
+    })
+    .get('/users/:id/edit', { name: 'currentUser' }, async (req, reply) => { // new
+      const user = await app.objection.models.user.query().findById(req.params.id);
+      reply.render(`/users/:${req.params.id}/edit`, { user });
+      return reply;
+    })
+    .patch('/users/:id', async (req, reply) => { // new
+      const user = await app.objection.models.user().update(req.body.data);
+      user.$set(req.body.data);
+      return reply;
+    })
+    .delete('/users/:id', async (req, reply) => { // new
+      const user = await app.objection.models.user.query().deleteById(req.params.id);
+      reply.render(`/users/:${req.params.id}`, { user });
+      return reply;
     });
 };

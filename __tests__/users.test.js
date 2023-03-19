@@ -70,6 +70,30 @@ describe('test users CRUD', () => {
     expect(user).toMatchObject(expected);
   });
 
+  it('update', async () => { // new
+    const response = await app.inject({
+      method: 'PATCH',
+      url: app.reverse('users/1'),
+    });
+    expect(response.statusCode).toBe(200);
+  });
+
+  it('edit', async () => { // new
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('users/1/edit'),
+    });
+    expect(response.statusCode).toBe(200);
+  });
+
+  it('delete', async () => { // new
+    const response = await app.inject({
+      method: 'DELETE',
+      url: app.reverse('users/1'),
+    });
+    expect(response.statusCode).toBe(200);
+  });
+
   afterEach(async () => {
     // Пока Segmentation fault: 11
     // после каждого теста откатываем миграции
