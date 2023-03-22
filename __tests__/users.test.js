@@ -73,7 +73,7 @@ describe('test users CRUD', () => {
   it('update', async () => { // new
     const response = await app.inject({
       method: 'PATCH',
-      url: app.reverse('users/1'),
+      url: app.reverse('updateUser'),
     });
     expect(response.statusCode).toBe(200);
   });
@@ -81,7 +81,7 @@ describe('test users CRUD', () => {
   it('edit', async () => { // new
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('users/1/edit'),
+      url: app.reverse('editUser'),
     });
     expect(response.statusCode).toBe(200);
   });
@@ -89,7 +89,7 @@ describe('test users CRUD', () => {
   it('delete', async () => { // new
     const response = await app.inject({
       method: 'DELETE',
-      url: app.reverse('users/1'),
+      url: app.reverse('deleteUser'),
     });
     expect(response.statusCode).toBe(200);
   });
