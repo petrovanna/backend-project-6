@@ -5,6 +5,8 @@ block header
 
 block content
   +formFor()(action=route('users') method='post')
+    +input(signInForm, 'Имя', errors)(type="text")
+    +input(signInForm, 'Фамилия', errors)(type="text")
     +input(user, 'email', errors)(type="text")
     +input(user, 'password', errors)(type="password")
     +submit(user)(value=t('views.users.new.submit'))

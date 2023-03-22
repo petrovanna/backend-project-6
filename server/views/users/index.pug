@@ -3,13 +3,21 @@ extends ../layouts/application.pug
 block content
   table.table.table-striped
     thead
+    h1 Пользователи
       tr
         th= t('views.users.id')
+        th= t('Полное имя')
         th= t('views.users.email')
-        th= t('views.users.createdAt')
+        th= t('Дата создания')
+        th= t('Действия')
     tbody
       each user in users
         tr
+        
           td= user.id
+          td= user.name
           td= user.email
           td= formatDate(user.createdAt)
+          td= user.action
+              button(type="submit") Изменить
+              button(type="submit") Удалить
