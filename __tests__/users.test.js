@@ -11,6 +11,7 @@ describe('test users CRUD', () => {
   let app;
   let knex;
   let models;
+  let cookie;
   const testData = getTestData();
 
   beforeAll(async () => {
@@ -31,6 +32,37 @@ describe('test users CRUD', () => {
   });
 
   beforeEach(async () => {
+  });
+
+  it('test registration', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('newUser'),
+    });
+
+    expect(response.statusCode).toBe(200);
+
+    const responseAuthIn = await app.inject({
+      method: 'POST',
+      url: app.reverse('users'),
+      payload: {
+        data: testData.users.existing,
+      },
+    });
+
+    expect(responseAuthIn.statusCode).toBe(200);
+
+    const [sessionCookie] = responseAuthIn.cookies;
+    const { name, value } = sessionCookie;
+    cookie = { [name]: value };
+
+    const responseAuthOut = await app.inject({
+      method: 'DELETE',
+      url: '/users/:id',
+      cookies: cookie,
+    });
+
+    expect(responseAuthOut.statusCode).toBe(302);
   });
 
   it('index', async () => {
@@ -59,6 +91,7 @@ describe('test users CRUD', () => {
       payload: {
         data: params,
       },
+      cookies: cookie,
     });
 
     expect(response.statusCode).toBe(302);
@@ -73,15 +106,18 @@ describe('test users CRUD', () => {
   it('update', async () => { // new
     const response = await app.inject({
       method: 'PATCH',
-      url: app.reverse('updateUser'),
+      url: '/users/:id',
+      name: 'updateUser',
+      cookies: cookie,
     });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(302);
   });
 
   it('edit', async () => { // new
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('editUser'),
+      url: '/users/:id/edit',
+      cookies: cookie,
     });
     expect(response.statusCode).toBe(200);
   });
@@ -89,9 +125,10 @@ describe('test users CRUD', () => {
   it('delete', async () => { // new
     const response = await app.inject({
       method: 'DELETE',
-      url: app.reverse('deleteUser'),
+      url: '/users/:id',
+      cookies: cookie,
     });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(302);
   });
 
   afterEach(async () => {
