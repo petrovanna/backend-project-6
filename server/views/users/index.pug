@@ -1,23 +1,25 @@
 extends ../layouts/application.pug
 
+block header
+  = t('layouts.application.users')
+
 block content
   table.table.table-striped
     thead
-    h1 Пользователи
       tr
         th= t('views.users.id')
-        th= t('Полное имя')
+        th= t('views.users.fullName')
         th= t('views.users.email')
-        th= t('Дата создания')
-        th= t('Действия')
+        th= t('views.users.createdAt')
+        th= t('views.users.actions')
     tbody
       each user in users
         tr
-        
           td= user.id
-          td= user.name
+          td= `${user.firstName} ${user.lastName}` 
           td= user.email
           td= formatDate(user.createdAt)
-          td= user.action
-              button(type="submit") Изменить
-              button(type="submit") Удалить
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=`/users/${user.id}/edit`)= t('views.users.update')
+              +buttonTo(`/users/${user.id}`, 'delete')(class="btn btn-danger" value=t('views.users.delete'))
