@@ -12,7 +12,7 @@ describe('test users CRUD', () => {
   let knex;
   let models;
   let cookie;
-  const testData = getTestData();
+  let testData;
 
   beforeAll(async () => {
     app = fastify({
@@ -27,8 +27,14 @@ describe('test users CRUD', () => {
     // тесты не должны зависеть друг от друга
     // перед каждым тестом выполняем миграции
     // и заполняем БД тестовыми данными
+    /* await knex.migrate.latest();
+    await prepareData(app); */
+  });
+
+  beforeEach(async () => {
     await knex.migrate.latest();
     await prepareData(app);
+    testData = getTestData();
   });
 
   beforeEach(async () => {
@@ -58,7 +64,7 @@ describe('test users CRUD', () => {
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
-      url: '/users/:id',
+      url: '/users/1',
       cookies: cookie,
     });
 
@@ -106,8 +112,7 @@ describe('test users CRUD', () => {
   it('update', async () => { // new
     const response = await app.inject({
       method: 'PATCH',
-      url: '/users/:id',
-      name: 'updateUser',
+      url: '/users/1',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
@@ -116,7 +121,7 @@ describe('test users CRUD', () => {
   it('edit', async () => { // new
     const response = await app.inject({
       method: 'GET',
-      url: '/users/:id/edit',
+      url: '/users/2/edit',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(200);
@@ -125,7 +130,7 @@ describe('test users CRUD', () => {
   it('delete', async () => { // new
     const response = await app.inject({
       method: 'DELETE',
-      url: '/users/:id',
+      url: '/users/2',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
@@ -135,6 +140,7 @@ describe('test users CRUD', () => {
     // Пока Segmentation fault: 11
     // после каждого теста откатываем миграции
     // await knex.migrate.rollback();
+    await knex('users').truncate();
   });
 
   afterAll(async () => {
