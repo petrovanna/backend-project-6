@@ -124,7 +124,7 @@ describe('test users CRUD', () => {
       url: '/users/2/edit',
       cookies: cookie,
     });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(302);
   });
 
   it('delete', async () => { // new
