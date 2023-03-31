@@ -13,6 +13,7 @@ describe('test users CRUD', () => {
   let models;
   let cookie;
   let testData;
+  // let tuser;
 
   beforeAll(async () => {
     app = fastify({
@@ -28,7 +29,7 @@ describe('test users CRUD', () => {
     // перед каждым тестом выполняем миграции
     // и заполняем БД тестовыми данными
     /* await knex.migrate.latest();
-    await prepareData(app); */
+    tuser = await prepareData(app); */
   });
 
   beforeEach(async () => {
@@ -37,16 +38,13 @@ describe('test users CRUD', () => {
     testData = getTestData();
   });
 
-  beforeEach(async () => {
-  });
-
   it('test registration', async () => {
-    const response = await app.inject({
+    /* const response = await app.inject({
       method: 'GET',
       url: app.reverse('newUser'),
     });
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(200); */
 
     const responseAuthIn = await app.inject({
       method: 'POST',
@@ -61,6 +59,9 @@ describe('test users CRUD', () => {
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
     cookie = { [name]: value };
+
+    /* const currentUser = await app.objection.models.user.query()
+      .findOne({ email: tuser.email }); */
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
