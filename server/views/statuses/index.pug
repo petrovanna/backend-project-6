@@ -1,0 +1,19 @@
+extends ../layouts/application.pug
+
+block header
+  = t('layouts.application.statuses')
+
+block content
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.statuses.id')
+        th= t('views.statuses.name')
+        th= t('views.statuses.createdAt')
+    tbody
+      each taskStatus in taskStatuses
+        tr
+          td= taskStatus.id
+          td= taskStatus.name 
+          td= formatDate(taskStatus.createdAt)
+          //-a.btn.btn-primary(href=`/statuses/new` role='button')= t('views.statuses.createStatus')
