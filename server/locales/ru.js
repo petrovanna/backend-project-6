@@ -52,6 +52,8 @@ export default {
         signOut: 'Выход',
         edit: 'Изменение пользователя',
         statuses: 'Статусы',
+        createStatus: 'Создание статуса',
+        statusEdit: 'Изменение статуса',
       },
     },
     views: {
