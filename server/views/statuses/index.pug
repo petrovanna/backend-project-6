@@ -1,9 +1,8 @@
 extends ../layouts/application.pug
 
-block header
-  = t('layouts.application.statuses')
-
 block content
+  h1.display-4.fw-bold.mt-4= t('layouts.application.statuses')
+  a.btn.btn-primary.me-1(href=`/statuses/new`)= t('views.statuses.createStatus')
   table.table.table-striped
     thead
       tr
@@ -11,9 +10,12 @@ block content
         th= t('views.statuses.name')
         th= t('views.statuses.createdAt')
     tbody
-      each taskStatus in taskStatuses
+      each status in statuses
         tr
-          td= taskStatus.id
-          td= taskStatus.name 
-          td= formatDate(taskStatus.createdAt)
-          //-a.btn.btn-primary(href=`/statuses/new` role='button')= t('views.statuses.createStatus')
+          td= status.id
+          td= status.name 
+          td= formatDate(status.createdAt)
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=`/statuses/${status.id}/edit`)= t('views.statuses.update')
+              +buttonTo(`/statuses/${status.id}`, 'delete')(class="btn btn-danger" value=t('views.statuses.delete'))
