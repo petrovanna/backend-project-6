@@ -41,6 +41,20 @@ export default {
           success: 'Статус успешно удалён',
         },
       },
+      tasks: {
+        update: {
+          error: 'Не удалось изменить задачу',
+          success: 'Задача успешно изменена',
+        },
+        create: {
+          error: 'Не удалось создать задачу',
+          success: 'Задача успешно создана',
+        },
+        delete: {
+          error: 'Задачу может удалить только её автор',
+          success: 'Задача успешно удалена',
+        },
+      },
       accessError: 'Вы не можете редактировать или удалять другого пользователя',
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
     },
@@ -54,6 +68,9 @@ export default {
         statuses: 'Статусы',
         createStatus: 'Создание статуса',
         statusEdit: 'Изменение статуса',
+        tasks: 'Задачи',
+        createTask: 'Создание задачи',
+        updateTask: 'Изменение задачи',
       },
     },
     views: {
@@ -88,6 +105,26 @@ export default {
         update: 'Изменить',
         createStatus: 'Создать статус',
         create: 'Создать',
+      },
+      tasks: {
+        id: 'ID',
+        name: 'Наименование',
+        status: 'Статус',
+        author: 'Автор',
+        executor: 'Исполнитель',
+        createdAt: 'Дата создания',
+        create: 'Создать задачу',
+        update: 'Изменить',
+        delete: 'Удалить',
+        actions: 'Действия',
+        description: 'Описание',
+        labels: 'Метки',
+        label: 'Метка',
+        show: 'Показать',
+        onlyMyTasks: 'Только мои задачи',
+        new: {
+          create: 'Создать',
+        },
       },
       welcome: {
         index: {
