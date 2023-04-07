@@ -1,0 +1,27 @@
+extends ../layouts/application.pug
+
+block content
+  h1.display-4.fw-bold.mt-4= t('layouts.application.tasks')
+  a.btn.btn-primary.me-1(href=`/tasks/new`)= t('views.tasks.create')
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.tasks.id')
+        th= t('views.tasks.name')
+        th= t('views.tasks.status')
+        th= t('views.tasks.author')
+        th= t('views.tasks.executor')
+        th= t('views.tasks.createdAt')
+    tbody
+      each task in tasks 
+        tr
+          td= task.id
+          td= taks.name
+          td= taks.status
+          td= taks.author
+          td= taks.executor
+          td= formatDate(task.createdAt)
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=`/tasks/${task.id}/edit`)= t('views.tasks.update')
+              +buttonTo(`/tasks/${task.id}`, 'delete')(class="btn btn-danger" value=t('views.tasks.delete'))
