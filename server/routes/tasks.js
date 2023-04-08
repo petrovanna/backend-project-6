@@ -22,10 +22,9 @@ export default (app) => {
         await app.objection.models.task.query().insert(validTask);
         req.flash('info', i18next.t('flash.tasks.create.success'));
         reply.redirect(app.reverse('tasks'));
-      } catch (e) {
+      } catch ({ data }) {
         req.flash('error', i18next.t('flash.tasks.create.error'));
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', e);
-        reply.render('tasks/new', { task, errors: e });
+        reply.render('tasks/new', { task, errors: data });
       }
 
       return reply;
