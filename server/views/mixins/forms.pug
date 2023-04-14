@@ -46,7 +46,7 @@ mixin textarea(entity, propertyName, errors = {})
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
-mixin select(entity, propertyName, errors = {}, options, isMultiple = false)
+mixin select(entity, propertyName, errors = {}, variables, isMultiple = false)
   - propertyErrors = _.get(errors, propertyName)
   - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
   - inputId = getInputId(propertyName)
@@ -62,11 +62,11 @@ mixin select(entity, propertyName, errors = {}, options, isMultiple = false)
     )&attributes(attributes)
       if !isMultiple
         option
-      each option in options ? options : []
-        - isSelect = _.includes(selectedOptions, option.id)
+      each variable in variables ? variables : []
+        - isSelect = _.includes(selectedVariables, variable.id)
         if propertyName === 'executorId'
-          option(value= option.id selected= isSelect)= `${option.firstName} ${option.lastName}`
-        else
-          option(value= option.id selected= isSelect)= option.name
+          option(value= variable.id selected= isSelect)= `${variable.firstName} ${variable.lastName}`
+        else 
+          option(value= variable.id selected= isSelect)= variable.name
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
