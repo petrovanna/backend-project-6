@@ -16,10 +16,14 @@ block content
       each task in tasks 
         tr
           td= task.id
-          td= taks.name
-          td= taks.status
-          td= taks.author
-          td= taks.executor
+          td
+            a(href = `/tasks/${task.id}`)= task.name
+          td= task.status.name
+          td= `${task.creator.firstName} ${task.creator.lastName}`
+          if !task.executor
+            td= ''
+          else 
+            td= `${task.executor.firstName} ${task.executor.lastName}`
           td= formatDate(task.createdAt)
           td
             .d-flex.flex-wrap
