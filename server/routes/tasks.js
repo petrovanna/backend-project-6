@@ -7,26 +7,33 @@ export default (app) => {
     .get('/tasks', { name: 'tasks', preValidation: app.authenticate }, async (req, reply) => {
       const users = await app.objection.models.user.query();
       const statuses = await app.objection.models.taskStatus.query();
-      const tasks = await app.objection.models.task.query().withGraphJoined('[creator, executor, status]');
+      const tasks = await app.objection.models.task.query().withGraphJoined('[creator, executor, status, label]');
+      const labels = await app.objection.models.label.query();
 
-      reply.render('tasks/index', { tasks, users, statuses });
+      reply.render('tasks/index', {
+        tasks, users, statuses, labels,
+      });
       return reply;
     })
     .get('/tasks/new', { name: 'newTask', preValidation: app.authenticate }, async (req, reply) => {
       const task = new app.objection.models.task();
       const users = await app.objection.models.user.query();
       const statuses = await app.objection.models.taskStatus.query();
+      const labels = await app.objection.models.label.query();
 
-      reply.render('tasks/new', { task, statuses, users });
+      reply.render('tasks/new', {
+        task, statuses, users, labels,
+      });
       return reply;
     })
     .post('/tasks', { name: 'createTask', preValidation: app.authenticate }, async (req, reply) => {
       const task = new app.objection.models.task();
       const users = await app.objection.models.user.query();
       const statuses = await app.objection.models.taskStatus.query();
+      const labels = await app.objection.models.label.query();
       const { id: creatorId } = req.user;
       const {
-        name, description, statusId, executorId,
+        name, description, statusId, executorId, label,
       } = req.body.data;
       const taskData = {
         name,
@@ -34,6 +41,7 @@ export default (app) => {
         statusId: Number(statusId),
         executorId: Number(executorId),
         creatorId,
+        label,
       };
       task.$set(req.body.data);
 
@@ -45,7 +53,7 @@ export default (app) => {
       } catch ({ data }) {
         req.flash('error', i18next.t('flash.tasks.create.error'));
         reply.render('tasks/new', {
-          task, users, statuses, errors: data,
+          task, users, statuses, errors: data, labels,
         });
       }
 
@@ -55,7 +63,10 @@ export default (app) => {
       const task = await app.objection.models.task.query().findById(req.params.id);
       const statuses = await app.objection.models.taskStatus.query();
       const users = await app.objection.models.user.query();
-      reply.render('/tasks/edit', { task, statuses, users });
+      const labels = await app.objection.models.label.query();
+      reply.render('/tasks/edit', {
+        task, statuses, users, labels,
+      });
       return reply;
     })
     .patch('/tasks/:id', async (req, reply) => {
@@ -63,9 +74,10 @@ export default (app) => {
       const task = await app.objection.models.task.query().findById(id);
       const users = await app.objection.models.user.query();
       const statuses = await app.objection.models.taskStatus.query();
+      const labels = await app.objection.models.label.query();
       const { id: creatorId } = req.user;
       const {
-        name, description, statusId, executorId,
+        name, description, statusId, executorId, label,
       } = req.body.data;
       const taskData = {
         name,
@@ -73,6 +85,7 @@ export default (app) => {
         statusId: Number(statusId),
         executorId: Number(executorId),
         creatorId,
+        label,
       };
       try {
         await task.$query().update(taskData);
@@ -80,7 +93,7 @@ export default (app) => {
         reply.redirect('/tasks');
       } catch ({ data }) {
         req.flash('error', i18next.t('flash.tasks.update.error'));
-        reply.redirect((`/tasks/${id}/edit`), task, users, statuses, { errors: data });
+        reply.redirect((`/tasks/${id}/edit`), task, users, statuses, { errors: data }, labels);
       }
     })
     .delete('/tasks/:id', { name: 'deleteTask', preValidation: app.authenticate }, async (req, reply) => {
@@ -96,8 +109,7 @@ export default (app) => {
       return reply;
     })
     .get('/tasks/:id', { name: 'taskPage', preValidation: app.authenticate }, async (req, reply) => {
-      const taskId = Number(req.params.id);
-      const task = await app.objection.models.task.query().withGraphJoined('[creator, executor, status]').findById(taskId);
+      const task = await app.objection.models.task.query().withGraphJoined('[creator, executor, status, label]').findById(req.params.id);
 
       reply.render('tasks/task', { task });
       return reply;
