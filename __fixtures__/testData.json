@@ -20,5 +20,29 @@
     "existing": {
       "name": "status2"
     }
+  },
+  "labels": {
+    "new": {
+      "name": "label1"
+    },
+    "existing": {
+      "name": "label2"
+    }
+  },
+  "tasks": {
+    "new": {
+      "name": "task1",
+      "description": "description1",
+      "statusId": 1,
+      "creatorId": 2,
+      "executorId": 3
+    },
+    "existing": {
+      "name": "task2",
+      "description": "description2",
+      "statusId": 1,
+      "creatorId": 2,
+      "executorId": 3
+    }
   }
 }

@@ -7,7 +7,7 @@ import init from '../server/plugin.js';
 // import encrypt from '../server/lib/secure.cjs';
 import { getTestData, prepareData } from './helpers/index.js';
 
-describe('test statuses CRUD', () => {
+describe('test labels CRUD', () => {
   let app;
   let knex;
   let models;
@@ -31,33 +31,33 @@ describe('test statuses CRUD', () => {
   });
 
   it('test registration', async () => {
-    /* const response = await app.inject({
-      method: 'GET',
-      url: app.reverse('newUser'),
-    });
+    // const response = await app.inject({
+    // method: 'GET',
+    // url: app.reverse('newUser'),
+    // });
 
-    expect(response.statusCode).toBe(200); */
+    // expect(response.statusCode).toBe(200);
 
     const responseAuthIn = await app.inject({
       method: 'POST',
-      url: app.reverse('statuses'),
+      url: app.reverse('labels'),
       payload: {
-        data: testData.statuses.existing,
+        data: testData.labels.existing,
       },
     });
 
-    expect(responseAuthIn.statusCode).toBe(200);
+    expect(responseAuthIn.statusCode).toBe(302);
 
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
     cookie = { [name]: value };
 
-    /* const currentUser = await app.objection.models.user.query()
-      .findOne({ email: tuser.email }); */
+    // const currentUser = await app.objection.models.user.query()
+    // .findOne({ email: tuser.email });
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
-      url: '/statuses/1',
+      url: '/labels/1',
       cookies: cookie,
     });
 
@@ -67,7 +67,7 @@ describe('test statuses CRUD', () => {
   it('index', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('statuses'),
+      url: app.reverse('labels'),
     });
 
     expect(response.statusCode).toBe(302);
@@ -76,61 +76,61 @@ describe('test statuses CRUD', () => {
   it('new', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('newStatus'),
+      url: app.reverse('newLabel'),
     });
 
     expect(response.statusCode).toBe(302);
   });
 
   it('create', async () => {
-    const params = testData.statuses.new;
+    const params = testData.labels.new;
     const response = await app.inject({
       method: 'POST',
-      url: app.reverse('statuses'),
+      url: app.reverse('labels'),
       payload: {
         data: params,
       },
       cookies: cookie,
     });
 
-    expect(response.statusCode).toBe(200);
-    /* const expected = {
-      ..._.omit(params, 'password'),
-      passwordDigest: encrypt(params.password),
-    }; */
-    const status = await models.taskStatus.query().findOne({ name: params.name });
-    expect(status).toMatchObject(params);
+    expect(response.statusCode).toBe(302);
+    // const expected = {
+    // ..._.omit(params, 'password'),
+    // passwordDigest: encrypt(params.password),
+    // };
+    const label = await models.label.query().findOne({ name: params.name });
+    expect(label).toMatchObject(params);
   });
 
-  it('update', async () => { // new
+  it('update', async () => {
     const response = await app.inject({
       method: 'PATCH',
-      url: '/statuses/1',
+      url: '/labels/1',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
   });
 
-  it('edit', async () => { // new
+  it('edit', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/statuses/2/edit',
+      url: '/labels/2/edit',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
   });
 
-  it('delete', async () => { // new
+  it('delete', async () => {
     const response = await app.inject({
       method: 'DELETE',
-      url: '/statuses/2',
+      url: '/labels/2',
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
   });
 
   afterEach(async () => {
-    await knex('task_statuses').truncate();
+    await knex('labels').truncate();
   });
 
   afterAll(async () => {
