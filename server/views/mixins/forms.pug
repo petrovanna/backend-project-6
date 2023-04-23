@@ -70,3 +70,37 @@ mixin select(entity, propertyName, errors = {}, variables, isMultiple = false)
           option(value= variable.id selected= isSelect)= variable.name
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
+
+mixin filterSelect(propertyName, variables)
+  - inputId = getInputId(propertyName)
+  .mb-3.input-group
+    label(
+      class='input-group-text'
+      for= inputId
+    )= propertyName
+    select(
+      id= inputId
+      name= propertyName
+      class='form-select'
+    )&attributes(attributes)
+      option
+      each variable in variables ? variables : []
+        - isSelect = _.includes(selectedVariables, variable.id)
+        if propertyName === 'executor'
+          option(value= variable.id selected= isSelect)= `${variable.firstName} ${variable.lastName}`
+        else 
+          option(value= variable.id selected= isSelect)= variable.name
+
+mixin checkbox(propertyName)
+  - inputId = getInputId(propertyName)
+  .mb-3.form-check
+    input(
+      id= inputId
+      name= propertyName
+      class='form-check-input'
+      type='checkbox'
+    )&attributes(attributes)
+    label(
+      class='form-check-label'
+      for= inputId
+    )= propertyName

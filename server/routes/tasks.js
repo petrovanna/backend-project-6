@@ -5,13 +5,32 @@ import i18next from 'i18next';
 export default (app) => {
   app
     .get('/tasks', { name: 'tasks', preValidation: app.authenticate }, async (req, reply) => {
-      const users = await app.objection.models.user.query();
-      const statuses = await app.objection.models.taskStatus.query();
-      const tasks = await app.objection.models.task.query().withGraphJoined('[creator, executor, status, label]');
-      const labels = await app.objection.models.label.query();
+      const { id } = req.user;
+      const {
+        executor, status, label, isCreatorUser,
+      } = req.query;
+
+      const { query } = req;
+
+      const tasksQuery = app.objection.models.task.query().withGraphJoined('[creator, executor, status, label]');
+
+      tasksQuery.skipUndefined().modify('filterExecutor', executor || undefined);
+      tasksQuery.skipUndefined().modify('filterStatus', status || undefined);
+      tasksQuery.skipUndefined().modify('filterLabel', label || undefined);
+
+      if (isCreatorUser === 'on') {
+        tasksQuery.skipUndefined().modify('filterCreator', id || undefined);
+      }
+
+      const [tasks, users, statuses, labels] = await Promise.all([
+        tasksQuery,
+        app.objection.models.user.query(),
+        app.objection.models.taskStatus.query(),
+        app.objection.models.label.query(),
+      ]);
 
       reply.render('tasks/index', {
-        tasks, users, statuses, labels,
+        tasks, statuses, users, labels, query,
       });
       return reply;
     })
