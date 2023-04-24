@@ -7,7 +7,7 @@ export default (app) => {
     .get('/tasks', { name: 'tasks', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.user;
       const {
-        executor, status, label, isCreatorUser,
+        executor, status, label, onlyMyTasks,
       } = req.query;
 
       const { query } = req;
@@ -18,7 +18,7 @@ export default (app) => {
       tasksQuery.skipUndefined().modify('filterStatus', status || undefined);
       tasksQuery.skipUndefined().modify('filterLabel', label || undefined);
 
-      if (isCreatorUser === 'on') {
+      if (onlyMyTasks === 'on') {
         tasksQuery.skipUndefined().modify('filterCreator', id || undefined);
       }
 
@@ -83,8 +83,10 @@ export default (app) => {
       const statuses = await app.objection.models.taskStatus.query();
       const users = await app.objection.models.user.query();
       const labels = await app.objection.models.label.query();
+      const selectedLabel = await app.objection.models.task.query().withGraphJoined('[label]').findById(req.params.id);
+
       reply.render('/tasks/edit', {
-        task, statuses, users, labels,
+        task, statuses, users, labels, selectedLabel,
       });
       return reply;
     })
