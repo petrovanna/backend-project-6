@@ -42,7 +42,7 @@ module.exports = class Task extends unique(BaseModel) {
     },
 
     filterLabel(queryBilder, labelId) {
-      queryBilder.where('labels.id', labelId);
+      queryBilder.where('label.id', labelId);
     },
   };
 
