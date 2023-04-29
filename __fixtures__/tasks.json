@@ -1,0 +1,23 @@
+[
+    {
+        "name": "task1",
+        "description": "first task",
+        "statusId": 1,
+        "creatorId": 2,
+        "executorId": 3
+    },
+    {
+        "name": "task2",
+        "description": "second task",
+        "statusId": 1,
+        "creatorId": 2,
+        "executorId": 3
+    },
+    {
+        "name": "task3",
+        "description": "third task",
+        "statusId": 1,
+        "creatorId": 2,
+        "executorId": 2
+    }
+]
