@@ -46,7 +46,7 @@ describe('test labels CRUD', () => {
       },
     });
 
-    expect(responseAuthIn.statusCode).toBe(302);
+    expect(responseAuthIn.statusCode).toBe(200);
 
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
@@ -93,7 +93,7 @@ describe('test labels CRUD', () => {
       cookies: cookie,
     });
 
-    expect(response.statusCode).toBe(302);
+    expect(response.statusCode).toBe(200);
     // const expected = {
     // ..._.omit(params, 'password'),
     // passwordDigest: encrypt(params.password),

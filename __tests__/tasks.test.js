@@ -103,9 +103,13 @@ describe('test tasks CRUD', () => {
   });
 
   it('update', async () => { // new
+    const params = testData.tasks.existing;
     const response = await app.inject({
       method: 'PATCH',
       url: '/tasks/1',
+      payload: {
+        data: params,
+      },
       cookies: cookie,
     });
     expect(response.statusCode).toBe(302);
