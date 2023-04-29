@@ -90,7 +90,7 @@ export default (app) => {
       });
       return reply;
     })
-    .patch('/tasks/:id', async (req, reply) => {
+    .patch('/tasks/:id', { name: 'update', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       const task = await app.objection.models.task.query().findById(id);
       const users = await app.objection.models.user.query();
@@ -100,11 +100,6 @@ export default (app) => {
       const {
         name, description, statusId, executorId, label,
       } = req.body.data;
-      // console.log('00000000000000000000000000000000000000000000', description);
-      // console.log('11111111111111111111111111111111111111111111', label);
-      // console.log('22222222222222222222222222222222222222222222', statusId);
-      console.log('33333333333333333333333333333333333333333333', req.body.data);
-      // console.log('44444444444444444444444444444444444444444444', labels);
 
       const taskData = {
         name,
@@ -114,7 +109,7 @@ export default (app) => {
         creatorId,
         label: Number(label),
       };
-      console.log('555555555555555555555555555555555555555555556', taskData);
+
       try {
         await task.$query().update(taskData);
         req.flash('info', i18next.t('flash.tasks.update.success'));
@@ -124,6 +119,7 @@ export default (app) => {
         reply.redirect((`/tasks/${id}/edit`), task, users, statuses, { errors: data }, labels);
       }
     })
+
     .delete('/tasks/:id', { name: 'deleteTask', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       try {
