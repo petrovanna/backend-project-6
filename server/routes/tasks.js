@@ -60,9 +60,9 @@ export default (app) => {
         statusId: Number(statusId),
         executorId: Number(executorId),
         creatorId,
-        label,
+        label: Number(label),
       };
-      task.$set(req.body.data);
+      task.$set(taskData);
 
       try {
         const validTask = await app.objection.models.task.fromJson(taskData);
@@ -100,14 +100,21 @@ export default (app) => {
       const {
         name, description, statusId, executorId, label,
       } = req.body.data;
+      // console.log('00000000000000000000000000000000000000000000', description);
+      // console.log('11111111111111111111111111111111111111111111', label);
+      // console.log('22222222222222222222222222222222222222222222', statusId);
+      console.log('33333333333333333333333333333333333333333333', req.body.data);
+      // console.log('44444444444444444444444444444444444444444444', labels);
+
       const taskData = {
         name,
         description,
         statusId: Number(statusId),
         executorId: Number(executorId),
         creatorId,
-        label,
+        label: Number(label),
       };
+      console.log('555555555555555555555555555555555555555555556', taskData);
       try {
         await task.$query().update(taskData);
         req.flash('info', i18next.t('flash.tasks.update.success'));
