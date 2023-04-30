@@ -9,12 +9,12 @@ block content
       +formFor()(action=`/tasks` method='get')
         .row
           .col-12.col-md
-            +filterSelect('status', statuses)
+            +filterSelect('status', statuses, value =t('views.tasks.status'))
           .col-12.col-md
-            +filterSelect('executor', users)
+            +filterSelect('executor', users, value =t('views.tasks.executor'))
           .col-12.col-md
-            +filterSelect('label', labels)
-        +checkbox('onlyMyTasks')
+            +filterSelect('label', labels, value =t('views.tasks.label'))
+        +checkbox('onlyMyTasks', value =t('views.tasks.onlyMyTasks'))
         +submit()(value=t('views.tasks.show')) 
   .table-responsive
   table.table.table-striped

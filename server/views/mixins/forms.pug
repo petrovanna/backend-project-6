@@ -5,14 +5,14 @@ mixin formFor(entity = null)
   form&attributes(attributes)
     block
 
-mixin input(entity, propertyName, errors = {})
+mixin input(entity, propertyName, errors = {}, labelName)
   - propertyErrors = _.get(errors, propertyName)
   - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
   - inputId = getInputId(propertyName)
   .mb-3(class=(errors[propertyName] && 'has-danger'))
     label(
       for= inputId
-    )= propertyName
+    )= labelName
     input(
       id= inputId
       name=getInputName(propertyName)
@@ -71,13 +71,13 @@ mixin select(entity, propertyName, errors = {}, variables, isMultiple = false)
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
-mixin filterSelect(propertyName, variables)
+mixin filterSelect(propertyName, variables, labelName)
   - inputId = getInputId(propertyName)
   .mb-3.input-group
     label(
       class='input-group-text'
       for= inputId
-    )= propertyName
+    )= labelName
     select(
       id= inputId
       name= propertyName
@@ -91,7 +91,7 @@ mixin filterSelect(propertyName, variables)
         else 
           option(value= variable.id selected= isSelect)= variable.name
 
-mixin checkbox(propertyName)
+mixin checkbox(propertyName, labelName)
   - inputId = getInputId(propertyName)
   .mb-3.form-check
     input(
@@ -103,4 +103,4 @@ mixin checkbox(propertyName)
     label(
       class='form-check-label'
       for= inputId
-    )= propertyName
+    )= labelName
