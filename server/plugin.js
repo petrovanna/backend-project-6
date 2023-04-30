@@ -16,6 +16,7 @@ import fastifyObjectionjs from 'fastify-objectionjs';
 import qs from 'qs';
 import Pug from 'pug';
 import i18next from 'i18next';
+import Rollbar from 'rollbar';
 
 import ru from './locales/ru.js';
 import en from './locales/en.js';
@@ -79,6 +80,21 @@ const addHooks = (app) => {
   });
 };
 
+const setErrorHandler = (app) => {
+  const rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_KEY,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  });
+  rollbar.log('Hello world!');
+
+  app.setErrorHandler((error) => {
+    rollbar.error(error);
+  });
+
+  return app;
+};
+
 const registerPlugins = async (app) => {
   await app.register(fastifySensible);
   // await app.register(fastifyErrorPage);
@@ -128,6 +144,7 @@ export default async (app, _options) => {
   setUpStaticAssets(app);
   addRoutes(app);
   addHooks(app);
+  setErrorHandler(app);
 
   return app;
 };
