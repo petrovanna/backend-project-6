@@ -30,14 +30,14 @@ mixin buttonTo(action, method)
     input(name="_method" type="hidden" value=method)
     input(type='submit')&attributes(attributes)
 
-mixin textarea(entity, propertyName, errors = {})
+mixin textarea(entity, propertyName, errors = {}, labelName)
   - propertyErrors = _.get(errors, propertyName)
   - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
   - inputId = getInputId(propertyName)
   .mb-3(class=(errors[propertyName] && 'has-danger'))
     label(
       for= inputId
-    )= propertyName
+    )= labelName
     textarea(
       id= inputId
       name=getInputName(propertyName)
