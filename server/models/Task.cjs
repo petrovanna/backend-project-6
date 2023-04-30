@@ -42,7 +42,7 @@ module.exports = class Task extends unique(BaseModel) {
     },
 
     filterLabel(queryBilder, labelId) {
-      queryBilder.where('label.id', labelId);
+      queryBilder.where('labels.id', labelId);
     },
   };
 
@@ -72,7 +72,7 @@ module.exports = class Task extends unique(BaseModel) {
           to: 'users.id',
         },
       },
-      label: {
+      labels: {
         relation: BaseModel.ManyToManyRelation,
         modelClass: Label,
         join: {
