@@ -46,14 +46,14 @@ mixin textarea(entity, propertyName, errors = {}, labelName)
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
-mixin select(entity, propertyName, errors = {}, variables, isMultiple = false)
+mixin select(entity, propertyName, labelName, errors = {}, variables, isMultiple = false)
   - propertyErrors = _.get(errors, propertyName)
   - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
   - inputId = getInputId(propertyName)
   .mb-3(class=(errors[propertyName] && 'has-danger'))
     label(
       for= inputId
-    )= propertyName
+    )= labelName
     select(
       id= inputId
       name=getInputName(propertyName)
