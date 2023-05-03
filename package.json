@@ -25,12 +25,12 @@
    "license": "ISC",
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/hexlet-boilerplates/fastify-nodejs-application.git"
+      "url": "git+https://github.com/petrovanna/backend-project-6.git"
    },
    "bugs": {
-      "url": "https://github.com/hexlet-boilerplates/fastify-nodejs-application/issues"
+      "url": "https://github.com/petrovanna/backend-project-6/issues"
    },
-   "homepage": "https://github.com/hexlet-boilerplates/fastify-nodejs-application.git#readme",
+   "homepage": "https://github.com/petrovanna/backend-project-6#readme",
    "dependencies": {
       "@fastify/formbody": "^7.0.1",
       "@fastify/passport": "^2.2.0",
