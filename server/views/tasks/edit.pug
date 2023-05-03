@@ -1,7 +1,7 @@
 extends ../layouts/application.pug
 
 block header
-  = t('layouts.application.updateTask')
+  h1.display-4.fw-bold.mt-4= t('layouts.application.updateTask')
 
 block content
   +formFor()(action=`/tasks/${task.id}` method='post')
