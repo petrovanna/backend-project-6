@@ -82,7 +82,7 @@ const addHooks = (app) => {
 
 const setErrorHandler = (app) => {
   const rollbar = new Rollbar({
-    accessToken: process.env.ROLLBAR_KEY,
+    accessToken: 'c3bba38883cd4b8fae03cbdd1e22d973',
     captureUncaught: true,
     captureUnhandledRejections: true,
   });
