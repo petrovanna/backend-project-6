@@ -18,8 +18,6 @@ import Pug from 'pug';
 import i18next from 'i18next';
 import Rollbar from 'rollbar';
 
-import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-
 import ru from './locales/ru.js';
 import en from './locales/en.js';
 // @ts-ignore
@@ -28,8 +26,6 @@ import getHelpers from './helpers/index.js';
 import * as knexConfig from '../knexfile.js';
 import models from './models/index.js';
 import FormStrategy from './lib/passportStrategies/FormStrategy.js';
-
-dotenv.config();
 
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
 
