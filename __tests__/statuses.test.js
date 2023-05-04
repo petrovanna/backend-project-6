@@ -1,10 +1,7 @@
 // @ts-check
 
-// import _ from 'lodash';
 import fastify from 'fastify';
-
 import init from '../server/plugin.js';
-// import encrypt from '../server/lib/secure.cjs';
 import { getTestData, prepareData } from './helpers/index.js';
 
 describe('test statuses CRUD', () => {
@@ -13,7 +10,6 @@ describe('test statuses CRUD', () => {
   let models;
   let cookie;
   let testData;
-  // let tuser;
 
   beforeAll(async () => {
     app = fastify({
@@ -31,13 +27,6 @@ describe('test statuses CRUD', () => {
   });
 
   it('test registration', async () => {
-    /* const response = await app.inject({
-      method: 'GET',
-      url: app.reverse('newUser'),
-    });
-
-    expect(response.statusCode).toBe(200); */
-
     const responseAuthIn = await app.inject({
       method: 'POST',
       url: app.reverse('statuses'),
@@ -51,9 +40,6 @@ describe('test statuses CRUD', () => {
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
     cookie = { [name]: value };
-
-    /* const currentUser = await app.objection.models.user.query()
-      .findOne({ email: tuser.email }); */
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
@@ -94,15 +80,11 @@ describe('test statuses CRUD', () => {
     });
 
     expect(response.statusCode).toBe(200);
-    /* const expected = {
-      ..._.omit(params, 'password'),
-      passwordDigest: encrypt(params.password),
-    }; */
     const status = await models.taskStatus.query().findOne({ name: params.name });
     expect(status).toMatchObject(params);
   });
 
-  it('update', async () => { // new
+  it('update', async () => {
     const response = await app.inject({
       method: 'PATCH',
       url: '/statuses/1',
@@ -111,7 +93,7 @@ describe('test statuses CRUD', () => {
     expect(response.statusCode).toBe(302);
   });
 
-  it('edit', async () => { // new
+  it('edit', async () => {
     const response = await app.inject({
       method: 'GET',
       url: '/statuses/2/edit',
@@ -120,7 +102,7 @@ describe('test statuses CRUD', () => {
     expect(response.statusCode).toBe(302);
   });
 
-  it('delete', async () => { // new
+  it('delete', async () => {
     const response = await app.inject({
       method: 'DELETE',
       url: '/statuses/2',

@@ -1,10 +1,7 @@
 // @ts-check
 
-// import _ from 'lodash';
 import fastify from 'fastify';
-
 import init from '../server/plugin.js';
-// import encrypt from '../server/lib/secure.cjs';
 import { getTestData, prepareData } from './helpers/index.js';
 
 describe('test labels CRUD', () => {
@@ -13,7 +10,6 @@ describe('test labels CRUD', () => {
   let models;
   let cookie;
   let testData;
-  // let tuser;
 
   beforeAll(async () => {
     app = fastify({
@@ -31,13 +27,6 @@ describe('test labels CRUD', () => {
   });
 
   it('test registration', async () => {
-    // const response = await app.inject({
-    // method: 'GET',
-    // url: app.reverse('newUser'),
-    // });
-
-    // expect(response.statusCode).toBe(200);
-
     const responseAuthIn = await app.inject({
       method: 'POST',
       url: app.reverse('labels'),
@@ -51,9 +40,6 @@ describe('test labels CRUD', () => {
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
     cookie = { [name]: value };
-
-    // const currentUser = await app.objection.models.user.query()
-    // .findOne({ email: tuser.email });
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
@@ -94,10 +80,6 @@ describe('test labels CRUD', () => {
     });
 
     expect(response.statusCode).toBe(200);
-    // const expected = {
-    // ..._.omit(params, 'password'),
-    // passwordDigest: encrypt(params.password),
-    // };
     const label = await models.label.query().findOne({ name: params.name });
     expect(label).toMatchObject(params);
   });

@@ -13,7 +13,6 @@ describe('test users CRUD', () => {
   let models;
   let cookie;
   let testData;
-  // let tuser;
 
   beforeAll(async () => {
     app = fastify({
@@ -28,8 +27,6 @@ describe('test users CRUD', () => {
     // тесты не должны зависеть друг от друга
     // перед каждым тестом выполняем миграции
     // и заполняем БД тестовыми данными
-    /* await knex.migrate.latest();
-    tuser = await prepareData(app); */
   });
 
   beforeEach(async () => {
@@ -39,13 +36,6 @@ describe('test users CRUD', () => {
   });
 
   it('test registration', async () => {
-    /* const response = await app.inject({
-      method: 'GET',
-      url: app.reverse('newUser'),
-    });
-
-    expect(response.statusCode).toBe(200); */
-
     const responseAuthIn = await app.inject({
       method: 'POST',
       url: app.reverse('users'),
@@ -59,9 +49,6 @@ describe('test users CRUD', () => {
     const [sessionCookie] = responseAuthIn.cookies;
     const { name, value } = sessionCookie;
     cookie = { [name]: value };
-
-    /* const currentUser = await app.objection.models.user.query()
-      .findOne({ email: tuser.email }); */
 
     const responseAuthOut = await app.inject({
       method: 'DELETE',
@@ -110,7 +97,7 @@ describe('test users CRUD', () => {
     expect(user).toMatchObject(expected);
   });
 
-  it('update', async () => { // new
+  it('update', async () => {
     const response = await app.inject({
       method: 'PATCH',
       url: '/users/1',
@@ -119,7 +106,7 @@ describe('test users CRUD', () => {
     expect(response.statusCode).toBe(302);
   });
 
-  it('edit', async () => { // new
+  it('edit', async () => {
     const response = await app.inject({
       method: 'GET',
       url: '/users/2/edit',
@@ -128,7 +115,7 @@ describe('test users CRUD', () => {
     expect(response.statusCode).toBe(302);
   });
 
-  it('delete', async () => { // new
+  it('delete', async () => {
     const response = await app.inject({
       method: 'DELETE',
       url: '/users/2',
