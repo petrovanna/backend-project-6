@@ -89,8 +89,7 @@ const setErrorHandler = (app) => {
   rollbar.log('Hello world!');
 
   app.setErrorHandler((error) => {
-    rollbar.error(error);
-    rollbar.configure({ enabled: process.env.NODE_ENV === 'production' });
+    rollbar.configure({ enabled: process.env.NODE_ENV === 'production' }).error(error);
   });
 
   return app;
