@@ -82,14 +82,14 @@ const addHooks = (app) => {
 
 const setErrorHandler = (app) => {
   const rollbar = new Rollbar({
-    accessToken: process.env.ROLLBAR_KEY,
+    enabled: process.env.NODE_ENV === 'production',
     captureUncaught: true,
     captureUnhandledRejections: true,
   });
   rollbar.log('Hello world!');
 
   app.setErrorHandler((error) => {
-    rollbar.configure({ enabled: process.env.NODE_ENV === 'production' }).error(error);
+    rollbar.error(error);
   });
 
   return app;
