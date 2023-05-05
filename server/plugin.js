@@ -85,6 +85,7 @@ const setErrorHandler = (app) => {
     accessToken: process.env.ROLLBAR_KEY,
     captureUncaught: true,
     captureUnhandledRejections: true,
+    enabled: process.env.NODE_ENV === 'production',
   });
   rollbar.log('Hello world!');
 
