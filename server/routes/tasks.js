@@ -54,7 +54,7 @@ export default (app) => {
       const labels = await app.objection.models.label.query();
       const { id: creatorId } = req.user;
       const {
-        name, description, statusId, executorId, label: labelArr = [],
+        name, description, statusId, executorId, labels: labelArr = [],
       } = req.body.data;
 
       const taskData = {
@@ -111,7 +111,7 @@ export default (app) => {
       const { id: creatorId } = req.user;
       const taskId = Number(req.params.id);
       const {
-        name, description, statusId, executorId, label: labelArr = [],
+        name, description, statusId, executorId, labels: labelArr = [],
       } = req.body.data;
 
       const taskData = {
@@ -137,6 +137,7 @@ export default (app) => {
             .upsertGraph(updatedTask, { relate: true, unrelate: true });
           return insertTask;
         });
+
         req.flash('info', i18next.t('flash.tasks.update.success'));
         reply.redirect('/tasks');
       } catch ({ data }) {
