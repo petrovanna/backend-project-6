@@ -9,7 +9,7 @@
 
 https://railway.app/project/fc708c3c-f227-4ecb-8ec4-04898e93ee81/service/b08a10a6-4f8f-46c6-98be-cf6a32f67de3
 
-Welcome! Let me introduce you Task Manager. Task Manager is a task management system similar to http://www.redmine.org/. It allows you to set tasks, assign executors and change their statuses. Registration and authentication are required to work with the system. 
+Welcome! Let me introduce you Task Manager. Task Manager is a task management system, which allows you to set tasks, assign executors and change their statuses. Registration and authentication are required to work with the system. 
 
 ### Installation:
 Make sure you have Node.js version 16 or higher
