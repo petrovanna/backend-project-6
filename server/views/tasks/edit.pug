@@ -9,6 +9,6 @@ block content
     +textarea(task, 'description', errors, value =t('views.tasks.description'))(type="text", value = task.description)
     +select(task, 'statusId', value =t('views.tasks.status'), errors, statuses)
     +select(task, 'executorId', value =t('views.tasks.executor'), errors, users)
-    +select(task, 'labels', value =t('views.tasks.label'), errors, labels)(multiple)
+    +select(task, 'labels', value =t('views.tasks.label'), errors, labels, true, selectedLabel)
     input(type="hidden" name="_method" value="PATCH")
     +submit(user)(value=t('views.tasks.update'))

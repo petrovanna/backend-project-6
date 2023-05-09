@@ -46,10 +46,11 @@ mixin textarea(entity, propertyName, errors = {}, labelName)
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
-mixin select(entity, propertyName, labelName, errors = {}, variables, isMultiple = false)
+mixin select(entity, propertyName, labelName, errors = {}, items, isMultiple = false, selectedLabel)
   - propertyErrors = _.get(errors, propertyName)
   - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
   - inputId = getInputId(propertyName)
+  - selectedOptions = entity[propertyName] ? [entity[propertyName]].flat().map((item) => item.id ? Number(item.id) : Number(item)) : []
   .mb-3(class=(errors[propertyName] && 'has-danger'))
     label(
       for= inputId
@@ -62,12 +63,14 @@ mixin select(entity, propertyName, labelName, errors = {}, variables, isMultiple
     )&attributes(attributes)
       if !isMultiple
         option
-      each variable in variables ? variables : []
-        - isSelect = _.includes(selectedVariables, variable.id)
+      each item in items
+        - isSelected = _.includes(selectedOptions, item.id)
         if propertyName === 'executorId'
-          option(value= variable.id selected= isSelect)= `${variable.firstName} ${variable.lastName}`
-        else 
-          option(value= variable.id selected= isSelect)= variable.name
+          option(value= item.id selected= isSelected)= `${item.firstName} ${item.lastName}`
+        else if selectedLabel
+          option(value= item.id selected= selectedLabel.labels[0].id == item.id)= item.name
+        else
+          option(value= item.id selected= isSelected)= item.name
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
