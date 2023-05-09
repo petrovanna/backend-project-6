@@ -84,12 +84,12 @@ mixin filterSelect(propertyName, variables, labelName)
       class='form-select'
     )&attributes(attributes)
       option
-      each variable in variables ? variables : []
-        - isSelect = _.includes(selectedVariables, variable.id)
+      each variable in variables
         if propertyName === 'executor'
-          option(value= variable.id selected= isSelect)= `${variable.firstName} ${variable.lastName}`
-        else 
-          option(value= variable.id selected= isSelect)= variable.name
+          option(value= variable.id)= `${variable.firstName} ${variable.lastName}`
+        else
+          option(value= variable.id, selected= variable.id == query[propertyName])= variable.name
+
 
 mixin checkbox(propertyName, labelName)
   - inputId = getInputId(propertyName)
