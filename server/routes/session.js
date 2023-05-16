@@ -10,7 +10,7 @@ export default (app) => {
     })
     .post('/session', { name: 'session' }, app.fp.authenticate('form', async (req, reply, err, user) => {
       if (err) {
-        return app.httpErrors.internalServerError(err);
+        return reply(app.httpErrors.internalServerError(err));
       }
       if (!user) {
         const signInForm = req.body.data;
