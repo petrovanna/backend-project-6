@@ -32,6 +32,7 @@ export default (app) => {
       reply.render('tasks/index', {
         tasks, statuses, users, labels, query,
       });
+
       return reply;
     })
 
